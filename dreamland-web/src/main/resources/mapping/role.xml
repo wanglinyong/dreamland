@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.dreamland.www.dao.RoleMapper">
+    <select id="findByUid"  resultMap="roleListMap">
+      select id,role_name,role_value,enabled from role where id in(select r.r_id from user u, role_user r where u.id = r.u_id and r.u_id = #{uid}) and enabled =1
+  </select>
+
+    <resultMap type="wang.dreamland.www.entity.Role" id="roleListMap">
+        <id property="id" column="id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleValue" column="role_value" />
+        <result property="enabled" column="enabled" />
+    </resultMap>
+</mapper>

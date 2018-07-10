@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.dreamland.www.dao.CommentMapper">
+
+    <select id="selectAll"  resultMap="commentMap">
+        select c.id,c.children,c.con_id,c.com_id,c.by_id,c.upvote,c.comm_time,c.com_content,u.id as uid,u.email,u.password,u.nick_name,u.phone,u.state,u.img_url,u.enable
+        from comment c,user u WHERE con_id = #{cid} and c.com_id = u.id order by id desc
+    </select>
+
+    <resultMap type="wang.dreamland.www.entity.Comment" id="commentMap">
+        <id property="id" column="id" />
+        <result property="children" column="children" />
+        <result property="conId" column="con_id" />
+        <result property="comId" column="com_id" />
+        <result property="byId" column="by_id" />
+        <result property="upvote" column="upvote" />
+        <result property="commTime" column="comm_time" />
+        <result property="comContent" column="com_content" />
+        <!-- property 表示wang.dreamland.www.entity.Comment中的属性； column 表示表中的列名 -->
+            <association property="user" javaType="User">
+                <id column="uid" property="id" />
+                <result column="email" property="email" />
+                <result column="password" property="password" />
+                <result column="nick_name" property="nickName" />
+                <result column="phone" property="phone" />
+                <result column="state" property="state" />
+                <result column="img_url" property="imgUrl" />
+                <result column="enable" property="enable" />
+            </association>
+    </resultMap>
+
+    <insert id="insertComment" parameterType="comment" useGeneratedKeys="true" keyProperty="id">
+        insert into comment(id, con_id, com_id, by_id, com_content, upvote, comm_time,children) values(#{id}, #{conId},#{comId}, #{byId},#{comContent},#{upvote}, #{commTime},#{children})
+    </insert>
+
+    <select id="findAllFirstComment"  resultMap="firstCommentMap">
+        select c.id,c.children,c.con_id,c.com_id,c.by_id,c.upvote,c.comm_time,c.com_content,u.id as uid,u.email,u.password,u.nick_name,u.phone,u.state,u.img_url,u.enable
+        from comment c,user u WHERE con_id = #{cid} and by_id is null and c.com_id = u.id order by id desc
+    </select>
+
+    <resultMap type="wang.dreamland.www.entity.Comment" id="firstCommentMap">
+        <id property="id" column="id" />
+        <result property="children" column="children" />
+        <result property="conId" column="con_id" />
+        <result property="comId" column="com_id" />
+        <result property="byId" column="by_id" />
+        <result property="upvote" column="upvote" />
+        <result property="commTime" column="comm_time" />
+        <result property="comContent" column="com_content" />
+        <!-- property 表示wang.dreamland.www.entity.Comment中的属性； column 表示表中的列名 -->
+        <association property="user" javaType="User">
+            <id column="uid" property="id" />
+            <result column="email" property="email" />
+            <result column="password" property="password" />
+            <result column="nick_name" property="nickName" />
+            <result column="phone" property="phone" />
+            <result column="state" property="state" />
+            <result column="img_url" property="imgUrl" />
+            <result column="enable" property="enable" />
+        </association>
+    </resultMap>
+
+    <!--查询所有子评论-->
+    <select id="findAllChildrenComment"  resultMap="childCommentMap">
+        select c.id,c.children,c.con_id,c.com_id,c.by_id,c.upvote,c.comm_time,c.com_content,u.id as uid,u.email,u.password,u.nick_name,u.phone,u.state,u.img_url,u.enable
+        from comment c,user u WHERE con_id = #{cid}
+        <if test='children!=null and children!=""'>
+            AND c.id in (${children})
+        </if>
+
+          and c.com_id = u.id order by id desc
+    </select>
+
+    <resultMap type="wang.dreamland.www.entity.Comment" id="childCommentMap">
+        <id property="id" column="id" />
+        <result property="children" column="children" />
+        <result property="conId" column="con_id" />
+        <result property="comId" column="com_id" />
+        <result property="byId" column="by_id" />
+        <result property="upvote" column="upvote" />
+        <result property="commTime" column="comm_time" />
+        <result property="comContent" column="com_content" />
+        <!-- property 表示wang.dreamland.www.entity.Comment中的属性； column 表示表中的列名 -->
+        <association property="user" javaType="User">
+            <id column="uid" property="id" />
+            <result column="email" property="email" />
+            <result column="password" property="password" />
+            <result column="nick_name" property="nickName" />
+            <result column="phone" property="phone" />
+            <result column="state" property="state" />
+            <result column="img_url" property="imgUrl" />
+            <result column="enable" property="enable" />
+        </association>
+    </resultMap>
+
+
+</mapper>

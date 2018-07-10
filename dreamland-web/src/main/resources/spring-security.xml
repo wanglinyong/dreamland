@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:http security="none" pattern="/css/**" />
+    <security:http security="none" pattern="/js/**" />
+    <security:http security="none" pattern="/images/**" />
+    <security:http security="none" pattern="/favicon.ico"/>
+    <security:http security="none" pattern="/login*" />
+    <security:http security="none" pattern="/to_login" />
+    <security:http security="none" pattern="/checkCode"/>
+    <security:http security="none" pattern="/checkEmail"/>
+    <security:http security="none" pattern="/checkPhone"/>
+    <security:http security="none" pattern="/captchaServlet"/>
+    <security:http security="none" pattern="/activecode*"/>
+    <security:http security="none" pattern="/sendEmail*"/>
+    <security:http security="none" pattern="/register*" />
+    <security:http security="none" pattern="/doRegister" />
+    <security:http security="none" pattern="/accessDenied"/>
+    <security:http security="none" pattern="/reply"/>
+    <security:http auto-config="false" access-decision-manager-ref="accessDecisionManager"
+                    use-expressions="true" entry-point-ref="loginEntryPoint">
+
+        <security:headers>
+            <security:frame-options disabled="true"></security:frame-options>
+        </security:headers>
+        <security:form-login login-page="/login" authentication-failure-url="/login?error=1"
+                             login-processing-url="/doLogin" password-parameter="password"
+                             default-target-url="/list"
+                             username-parameter="username" />
+
+        <security:access-denied-handler ref="accessDeniedHandler" />
+       <!-- 禁用csrf-->
+        <security:csrf disabled="true"/>
+        <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/index**" access="permitAll"/>
+        <security:intercept-url pattern="/sendSms" access="permitAll"/>
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+
+        <!-- session失效url session策略-->
+        <security:session-management invalid-session-url="/index.jsp"  session-authentication-strategy-ref="sessionStrategy">
+        </security:session-management>
+
+        <!-- spring-security提供的过滤器 以及我们自定义的过滤器 authenticationFilter-->
+        <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER" />
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="authenticationFilter"/>
+        <security:custom-filter after="FORM_LOGIN_FILTER" ref="phoneAuthenticationFilter"/>
+        <security:custom-filter after="CAS_FILTER" ref="openAuthenticationFilter" />
+        <security:custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER"/>
+    </security:http>
+    <bean id="accessDeniedHandler"
+                class="wang.dreamland.www.security.account.MyAccessDeniedHandler">
+        <property name="errorPage" value="/accessDenied.jsp" />
+    </bean>
+
+    <bean id="loginEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <!-- 默认登录页的url -->
+        <constructor-arg value="/login?error=login"/>
+    </bean>
+
+    <!-- 启用表达式 为了后面的投票器做准备 -->
+    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"
+          id="expressionHandler"/>
+    <bean class="org.springframework.security.web.access.expression.WebExpressionVoter"
+          id="expressionVoter">
+        <property name="expressionHandler" ref="expressionHandler"/>
+    </bean>
+
+    <!-- 认证管理器，使用自定义的accountService，并对密码采用md5加密 -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="accountService">
+            <security:password-encoder hash="md5">
+                <security:salt-source user-property="username"></security:salt-source>
+            </security:password-encoder>
+        </security:authentication-provider>
+        <security:authentication-provider ref="phoneAuthenticationProvider">
+        </security:authentication-provider>
+        <security:authentication-provider ref="openAuthenticationProvider">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="authenticationFilter" class="wang.dreamland.www.security.account.AccountAuthenticationFilter">
+        <property name="filterProcessesUrl" value="/doLogin"></property>
+        <property name="authenticationManager" ref="authenticationManager"></property>
+        <property name="sessionAuthenticationStrategy" ref="sessionStrategy"></property>
+        <property name="authenticationSuccessHandler">
+            <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/list"></property>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="wang.dreamland.www.security.account.AccountAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/login?error=fail"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="phoneAuthenticationFilter" class="wang.dreamland.www.security.phone.PhoneAuthenticationFilter">
+        <property name="filterProcessesUrl" value="/phoneLogin"></property>
+        <property name="authenticationManager" ref="authenticationManager"></property>
+        <property name="sessionAuthenticationStrategy" ref="sessionStrategy"></property>
+        <property name="authenticationSuccessHandler">
+            <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/list"></property>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="wang.dreamland.www.security.phone.PhoneAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/login?error=fail"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="openAuthenticationFilter" class="wang.dreamland.www.security.open.OpenAuthenticationFilter">
+        <property name="filterProcessesUrl" value="/qq_login"></property>
+        <property name="authenticationManager" ref="authenticationManager"></property>
+        <property name="sessionAuthenticationStrategy" ref="sessionStrategy"></property>
+        <property name="authenticationSuccessHandler">
+            <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/list"></property>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/login?error=fail"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <!-- 处理退出的虚拟url -->
+        <property name="filterProcessesUrl" value="/loginout" />
+        <!-- 退出处理成功后的默认显示url -->
+        <constructor-arg index="0" value="/login?logout" />
+        <constructor-arg index="1">
+            <!-- 退出成功后的handler列表 -->
+            <array>
+                <bean id="securityContextLogoutHandler"
+                      class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+            </array>
+        </constructor-arg>
+    </bean>
+
+    <!-- ConcurrentSessionFilter过滤器配置(主要设置账户session过期路径) -->
+    <bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <constructor-arg ref="sessionRegistry"></constructor-arg>
+        <constructor-arg value="/login?error=expired"></constructor-arg>
+    </bean>
+
+    <bean id="sessionStrategy" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+        <constructor-arg>
+            <list>
+
+                <bean class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+                    <property name="maximumSessions" value="1"></property>
+                    <property name="exceptionIfMaximumExceeded" value="false"></property>
+                    <constructor-arg ref="sessionRegistry"/>
+                </bean>
+                <bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
+                <bean class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+                    <constructor-arg ref="sessionRegistry"/>
+                </bean>
+            </list>
+
+        </constructor-arg>
+    </bean>
+    <bean id="sessionRegistry" scope="singleton" class="org.springframework.security.core.session.SessionRegistryImpl"></bean>
+    <bean id="accountService" class="wang.dreamland.www.security.account.AccountDetailsService"/>
+    <bean id="phoneService" class="wang.dreamland.www.security.phone.PhoneUserDetailsService"/>
+    <bean id="openUserDetailsService" class="wang.dreamland.www.security.open.OpenUserDetailsService"/>
+
+    <bean id="phoneAuthenticationProvider" class="wang.dreamland.www.security.phone.PhoneAuthenticationProvider">
+        <property name="userDetailsService" ref="phoneService"></property>
+    </bean>
+
+    <bean id="openAuthenticationProvider" class="wang.dreamland.www.security.open.OpenAuthenticationProvider">
+        <property name="userDetailsService" ref="openUserDetailsService"></property>
+    </bean>
+    <!-- An access decision voter that reads ROLE_* configuration settings -->
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+    <bean id="authenticatedVoter"
+          class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+
+    <bean id="accessDecisionManager"
+          class="org.springframework.security.access.vote.AffirmativeBased">
+        <constructor-arg>
+            <list>
+                <ref local="roleVoter"/>
+                <ref local="authenticatedVoter"/>
+                <ref local="expressionVoter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

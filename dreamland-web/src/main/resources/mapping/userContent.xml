@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.dreamland.www.dao.UserContentMapper">
+
+    <select id="findCategoryByUid"  resultMap="categoryMap">
+        select category,count(1) as num from user_content where u_id = #{uid} and personal = '0' group by category order by num desc
+    </select>
+
+    <resultMap type="wang.dreamland.www.entity.UserContent" id="categoryMap">
+        <!-- property 表示wang.dreamland.www.entity.UserContent； column 表示表中的列名 -->
+        <id property="id" column="id" />
+        <result property="category" column="category" />
+        <result property="num" column="num" />
+    </resultMap>
+
+    <insert id="inserContent" parameterType="userContent" useGeneratedKeys="true" keyProperty="id">
+        insert into user_content(id, u_id, title, category, content, personal,rpt_time ,img_url,nick_name,upvote,downvote,comment_num) values(#{id}, #{uId},#{title}, #{category},#{content},#{personal},#{rptTime}, #{imgUrl},#{nickName},#{upvote},#{downvote},#{commentNum})
+    </insert>
+
+
+    <!--user_content和user表连接查询-->
+    <select id="findByJoin"  resultMap="joinMap">
+       select u1.id,u1.u_id,u1.title,u1.category,u1.personal,u1.rpt_time,u1.upvote,u1.downvote,u1.comment_num,u1.content,u2.nick_name nickName,u2.img_url imgUrl from user_content u1 LEFT JOIN user u2 on u1.u_id = u2.id
+       <where>
+           <choose>
+               <when test='id!=null and id!=""'>
+                    u1.id = #{id}
+               </when>
+               <otherwise>
+                   <if test='personal!=null and personal!=""'>
+                       u1.personal = #{personal}
+                   </if>
+                   <if test='personal==null or personal==""'>
+                       u1.personal = '0'
+                   </if>
+               </otherwise>
+           </choose>
+
+       </where>
+        <if test='uId!=null and uId!=""'>
+            and u1.u_id = #{uId}
+        </if>
+      order by u1.rpt_time desc
+    </select>
+
+    <resultMap type="wang.dreamland.www.entity.UserContent" id="joinMap">
+        <!-- property 表示wang.dreamland.www.entity.UserContent； column 表示表中的列名 -->
+        <id property="id" column="id" />
+        <result property="uId" column="u_id" />
+        <result property="title" column="title" />
+        <result property="category" column="category" />
+        <result property="personal" column="personal" />
+        <result property="rptTime" column="rpt_time" />
+        <result property="imgUrl" column="img_url" />
+        <result property="nickName" column="nick_name" />
+        <result property="upvote" column="upvote" />
+        <result property="downvote" column="downvote" />
+        <result property="commentNum" column="comment_num" />
+        <result property="content" column="content" />
+    </resultMap>
+
+</mapper>
