@@ -57,7 +57,7 @@
 <span style="font-size:25px">[梦境网链接](http://dreamland.wang)</span>
 
 
-<font color=#FF0000 size=72>qq群：581618981</font>
+![](https://raw.githubusercontent.com/wiki/wanglinyong/wanglinyong.github.io/ssm.png)
 
 
 
