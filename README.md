@@ -1,6 +1,6 @@
 # dreamland项目简介
 
-dreamland项目是由我个人开发的一个博客项目，一直感觉梦是个奇妙的东西，每个人都会做梦，要是每个人都能把梦记录下来、分享出来，那该是件多么有趣的事情啊，再通过大量的分析比对说不定还能研究出个啥结果来呢。
+dreamland项目是由我个人开发的一个博客项目，一直感觉梦是个奇妙的东西，每个人都会做梦，要是每个人都能把梦记录下来、分享出来，那该是件多么有趣的事情啊~
 
 dreamland梦境网-意在营造一个分享梦的社区。
 
@@ -58,15 +58,15 @@ dreamland梦境网-意在营造一个分享梦的社区。
 
 	http://dreamland.wang
 
-<span style="font-size:25px">[梦境网链接](http://dreamland.wang)</span>
+<span style=font-size:25px>[梦境网链接](http://dreamland.wang)</span>
 
 
 ![](https://raw.githubusercontent.com/wiki/wanglinyong/wanglinyong.github.io/ssm.png)
 
 
+## 四、Gitchat达人课
 
-
-
+<span style=font-size:25px>[SSM 博客系统开发实战](http://dreamland.wang)</span>
 
 
 
