@@ -354,7 +354,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="http://user.qzone.qq.com/1492495058" target="_blank" rel="external nofollow">
+                                <a href="#" target="_blank" rel="external nofollow">
                                     QQ空间
                                 </a>
                             </li>
