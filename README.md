@@ -66,7 +66,7 @@ dreamland梦境网-意在营造一个分享梦的社区。
 
 ## 四、Gitchat达人课
 
-<span style=font-size:25px>[SSM 博客系统开发实战](http://dreamland.wang)</span>
+<span style=font-size:25px>[SSM 博客系统开发实战](https://gitbook.cn/gitchat/column/5afa86a515da5a21f341cd7f)</span>
 
 
 
