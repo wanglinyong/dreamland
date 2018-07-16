@@ -32,4 +32,10 @@ public interface UpvoteService {
      * @param upvote
      */
    void update(Upvote upvote);
+
+    /**
+     * 根据文章id删除Upvote
+     * @param cid
+     */
+    void deleteByContentId(Long cid);
 }

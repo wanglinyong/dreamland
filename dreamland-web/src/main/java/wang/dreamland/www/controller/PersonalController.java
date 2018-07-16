@@ -34,6 +34,10 @@ import java.util.Map;
 public class PersonalController extends BaseController{
     private final static Logger log = Logger.getLogger(PersonalController.class);
     @Autowired
+    private CommentService commentService;
+    @Autowired
+    private UpvoteService upvoteService;
+    @Autowired
     private UserContentService userContentService;
     @Autowired
     private UserInfoService userInfoService;
@@ -175,7 +179,8 @@ public class PersonalController extends BaseController{
      */
     @RequestMapping("/deleteContent")
     public String deleteContent(Model model, @RequestParam(value = "cid",required = false) Long cid) {
-
+        commentService.deleteByContentId(cid);
+        upvoteService.deleteByContentId(cid);
         userContentService.deleteById(cid);
         solrService.deleteById(cid);
         return "redirect:/list?manage=manage";
