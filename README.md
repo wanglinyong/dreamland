@@ -5,6 +5,8 @@
 ![spring](https://img.shields.io/badge/Spring-4.2.5-brightgreen.svg)
 ![Mybatis](https://img.shields.io/badge/Mybatis-3.2.8-blue.svg)
 
+下载速度慢的可移至[码云链接](https://gitee.com/wanglinyong/)
+
 ## 2019.01.26更新
 
 集成editormd，支持markdown在线编辑功能
