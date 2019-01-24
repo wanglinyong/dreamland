@@ -14,4 +14,10 @@ public class Constants {
     public static final Long ROLE_ADMIN = 2L;
 
     public static final String QQ_LOGIN_URL = "/qq_login";
+
+    public static final String WRITE_STYLE_MARKDOWN = "richtext";
+
+    public static final String DREAMLAND_DOMAIN = "http://www.dreamland.wang";
+
+    public static final String SERVER_FILE_ROOT = "/home/images/";
 }

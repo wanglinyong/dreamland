@@ -1,5 +1,6 @@
 package wang.dreamland.www.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,7 @@ public class IndexJspController extends BaseController {
         }else {
             Page<UserContent> page =  findAll(pageNum,pageSize);
             model.addAttribute( "page",page );
+            model.addAttribute( "list", JSON.toJSONString( page.getResult() ) );
         }
         return "../index";
     }

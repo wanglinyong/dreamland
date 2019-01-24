@@ -35,6 +35,8 @@ public class UserContent {
 
     private String content;
 
+    private String editormd;//md格式
+
     @Transient
     private  Integer num;
 
@@ -145,5 +147,13 @@ public class UserContent {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getEditormd() {
+        return editormd;
+    }
+
+    public void setEditormd(String editormd) {
+        this.editormd = editormd;
     }
 }

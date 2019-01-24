@@ -8,14 +8,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>梦境网</title>
+
+
+
     <link href="${ctx}/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${ctx}/css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
 
-    <link href="${ctx}/css/zui/css/zui.min.css" rel="stylesheet"/>
-    <link href="${ctx}/css/zui/css/zui-theme.min.css" rel="stylesheet"/>
+    <link href="${ctx}/css/zui/css/zui2.css" rel="stylesheet"/>
+    <link href="${ctx}/css/zui/css/zui-theme.css" rel="stylesheet"/>
+
+
+
 
     <link rel="stylesheet" href="${ctx}/css/reply/css/style.css">
-    <link rel="stylesheet" href="${ctx}/css/reply/css/comment.css">
+    <link rel="stylesheet" href="${ctx}/css/reply/css/comment2.css">
+
+    <link rel="stylesheet" href="${ctx}/editormd/css/editormd.preview2.css" />
+    <link rel="stylesheet" href="${ctx}/editormd/css/editormd3.css" />
+
+
 
     <style>
         body,html{
@@ -23,6 +34,13 @@
             padding: 0;
             margin: 0;
             height:100%;
+        }
+
+        .xxzui .kwd, .xxzui .prettyprint .tag{
+            color: #ff9900;
+        }
+        .stats a{
+            text-decoration:none;
         }
         .stats-buttons  a{
             text-decoration:none;
@@ -130,10 +148,20 @@
             height: 50px;
         }
 
+
     </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?802ba774223c589fedeef7af66b41964";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
-<div class="container">
+<div class="container xxzui xxzuitheme">
     <div>
         <h1>Dreamland-梦境网</h1>
     </div>
@@ -170,13 +198,13 @@
             <a class="navbar-brand" href="${ctx}/index_list">首页</a>
         </div>
         <div id="navbar-menu" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" ><%--#ddd--%>
                 <li class="active"><a href="#">最新梦</a></li>
-                <li><a href="#">最热梦</a></li>
-                <li><a href="#">梦诗词</a></li>
-                <li><a href="#">梦问答</a></li>
-                <li><a href="#">我的梦</a></li>
-                <li><a href="${ctx}/list?id=${user.id}">个人空间</a></li>
+                <li><a style="color: white" href="#">最热梦</a></li>
+                <li><a style="color: white" href="#">梦诗词</a></li>
+                <li><a style="color: white" href="#">梦问答</a></li>
+                <li><a style="color: white" href="#">我的梦</a></li>
+                <li><a style="color: white" href="${ctx}/list?id=${user.id}">个人空间</a></li>
             </ul>
         </div>
 
@@ -191,7 +219,7 @@
 
     <div id="content" class="row-fluid">
         <div class="col-md-9"  style="background-color: white;">
-            <div id="content_col" class="content-main">
+            <div id="content_col" class="content-main xxlib">
 
                 <c:forEach var="cont" items="${page.result}" varStatus="i">
                     <!-- 正文开始 -->
@@ -218,7 +246,7 @@
 
 
                         <h2>${cont.title}</h2>
-                            ${cont.content}
+                        <div style="padding: 0px; float: none;margin-bottom: 10px;" class="xxlib content editormd-preview-theme-dark" id="content-text_${cont.id}">${cont.content}</div>
                         <div style="height: 5px"></div>
                         <div class="stats">
                             <!-- 笑脸、评论数等 -->
@@ -262,8 +290,8 @@
                         <div class="commentAll" style="display:none" id="comment_reply_${cont.id}">
                             <!--评论区域 begin-->
                             <div class="reviewArea clearfix">
-                                <textarea id="comment_input_${cont.id}"  class="content comment-input" placeholder="输入内容&hellip;" onkeyup="keyUP(this)"></textarea>
-                                <a class="plBtn" id="comment_${cont.id}" onclick="_comment(${cont.id},${user.id==null?0:user.id},${cont.uId})" style="color: white;cursor: pointer;">评论</a>
+                                <textarea style="padding: 10px 15px 10px 15px;" id="comment_input_${cont.id}"  class="content comment-input" placeholder="输入内容&hellip;" onkeyup="keyUP(this)"></textarea>
+                                <a class="plBtn" id="comment_${cont.id}" onclick="_comment(${cont.id},${user.id==null?0:user.id},${cont.uId})" style="background: #339b53;color: white;cursor: pointer;">评论</a>
                             </div>
                             <!--评论区域 end-->
                             <div class="comment-show-first" id="comment-show-${cont.id}">
@@ -418,11 +446,11 @@
                 <div class="foot-nav clearfix" style="position: absolute;left: 0px;margin-top: 40px;text-align: center">
                     <div class="foot-copyrights" style="margin-left: 200px">
                         <p>
-                            互联网ICP备案：京ICP备xxxxxx号-1
+                            互联网ICP备案：皖ICP备18007469号
                         </p>
                         <p>
                             <span>违法和不良信息举报电话：010-xxxxxxx</span>
-                            <span>邮箱：xxx@dreamland.wang</span>
+                            <span>邮箱：dreamland_wang@163.com</span>
                         </p>
                         <p style="margin-top: 8px">&copy;www.dreamland.wang 梦境网版权所有</p>
                     </div>
@@ -436,23 +464,97 @@
             <div style="background-color: white;width: 250px;height: 440px">
                 <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=82" width="250" height="440" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
             </div>
-        </div>
 
+            <div style="margin-top: 20px;" onclick="goBook();">
+                <img src="images/drk.jpg">
+            </div>
+
+            <div style="margin-top: 20px;background-image: url('${ctx}/images/java.jpg');cursor:pointer;" onclick="goBook();">
+                <div class="ssm" style="width: 40px;height: 20px;border:1px solid #000;text-align: center">广告</div>
+                <div style="padding: 1px">
+                    <h3>SSM 博客系统开发实战</h3>
+                    <ul style="list-style-type: none">
+                        <li>
+                            SSM 博客系统开发实战
+                        </li>
+                        <li> 王林永·Java 高级工程师，CSDN博客专栏.</li>
+                        <li> ¥29.99 | 20 课</li>
+                        <div class="ssm" style="float: left;width: 40px;height: 20px;border:1px solid #000;text-align: center;color: red">最新</div>
+                        <div class="ssm" style="float: left;width: 40px;height: 20px;border:1px solid #000;margin-left: 5px;text-align: center;color: red">架构</div>
+                        <div class="ssm" style="float: left;width: 40px;height: 20px;border:1px solid #000;margin-left: 5px;text-align: center;color: red">SSM</div>
+                        <div class="ssm" style="float: left;width: 40px;height: 20px;border:1px solid #000;margin-left: 5px;text-align: center;color: red">Java</div>
+                    </ul>
+
+                </div>
+                <br/>
+                <div style="font-size: 10px;padding: 2px;margin-top: 2px">
+                    <ul style="list-style-type: none">
+                        <li>导读：为什么选择 SSM 框架开发项目</li>
+                        <li>第01课：基础环境安装及Maven创建父子工程</li>
+                        <li>第02课：SSM 框架的搭建</li>
+                        <li>第03课：MySQL表设计及反向生成实体类</li>
+                        <li>第04课：接口设计及通用 Mapper</li>
+                        <li>第05课：注册（邮件激活、Ajax 异步获取）</li>
+                        <li>第06课：登录之账号登录（验证码）</li>
+                        <li>第07课：登录之手机快捷登录</li>
+                        <li>第08课：首页展示及分页（PageHelper）</li>
+                        <li>第09课：评论、回复及点赞模块</li>
+                        <li>第10课：个人主页模块</li>
+                        <li>第11课：博客书写页面——KindEditor </li>
+                        <li>第12课：个人资料修改页面</li>
+                        <li>第13课：第三方 QQ 登录及账号绑定与解除</li>
+                        <li>第14课：首页搜索功能（Solr）</li>
+                        <li>第15课：Spring-Security 源码解读及认证授权</li>
+                        <li>第16课：Spring-Security 之手机登录认证授权</li>
+                        <li>第17课：Spring-Security 之QQ登录认证授权</li>
+                        <li>第18课：Linux 系统部署发布</li>
+                        <li>第19课：项目总结</li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
 
 </div>
+<%--<script src="${ctx}/editormd/examples/js/jquery.min.js"></script>--%>
+
+
 <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/css/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="${ctx}/css/zui/js/zui.min.js"></script>
 
-
 <script type="text/javascript" src="${ctx}/css/reply/js/jquery.flexText.js"></script>
 
+<script src="${ctx}/editormd/lib/marked.min.js"></script>
+<script src="${ctx}/editormd/lib/prettify.min.js"></script>
+<script src="${ctx}/editormd/lib/editormd.min.js"></script>
 </body>
 <script language=javascript>
+    $(function () {
+        var clist = ${list};
+        $(clist).each(function () {
+            var id = this.id
+            editormd.markdownToHTML("content-text_"+id);
+        })
+       /* if(clist!=''){
+            var second = (new Function('return '+ clist +';'))();
+            console.log(second);
+            for(var p in second){
+                editormd.markdownToHTML("content-text"+p.id);
+            }
+
+
+        }*/
+
+    });
+    function goBook() {
+        window.open( "https://gitbook.cn/gitchat/column/5afa86a515da5a21f341cd7f");
+    }
     function  showImg(){
         document.getElementById("wxImg").style.display='block';
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import wang.dreamland.www.common.Constants;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -37,9 +38,11 @@ public class UploadController {
       public Map<String, Object> fileUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
              FileUploadException {
                  ServletContext application = request.getSession().getServletContext();
-                 String savePath = application.getRealPath("/") + "images/";
+                 String savePath = Constants.SERVER_FILE_ROOT;
+               // String savePath = application.getRealPath("/") + "images/";
 
-                 String saveUrl = request.getContextPath() + "/images/";
+                // String saveUrl = request.getContextPath() + "/images/";
+                String saveUrl = Constants.DREAMLAND_DOMAIN + "/images/";
                  //上传图片，保存路径为：G:\wly\dreamland\target\dreamland\images/,文件url为：/images/
                  log.info( "上传图片，保存路径为："+savePath+",文件url为："+saveUrl );
 
@@ -134,12 +137,11 @@ public class UploadController {
                              ByteStreams.copy(file.getInputStream(), new FileOutputStream(uploadedFile));
 
                             } catch (Exception e) {
-
                                 return getError("上传文件失败。");
 
                              }
                          Map<String, Object> msg = new HashMap<String, Object>();
-                         msg.put("error", 0);
+                         msg.put("success", 1);
                          msg.put("url", saveUrl + newFileName);
                         // =======savePath=======G:\wly\dreamland\target\dreamland\images/image/20180108/=====url======/images/image/20180108/20180108180524_256.png
                          log.info( "=======savePath======="+savePath+"=====url======"+saveUrl+newFileName );
@@ -150,7 +152,7 @@ public class UploadController {
 
              private Map<String, Object> getError(String message) {
                  Map<String, Object> msg = new HashMap<String, Object>();
-                 msg.put("error", 1);
+                 msg.put("success",0);//0失败
                  msg.put("message", message);
                 return msg;
              }

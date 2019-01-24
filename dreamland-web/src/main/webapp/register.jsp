@@ -13,7 +13,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <link type="text/css" rel="stylesheet" href="${ctx}/css/dreamland.css">
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
-    <script type="text/javascript" src="${ctx}/images/lib/js/jquery.min.js"></script>
 </head>
 
 <body class="login_bj" style="background-color: grey">

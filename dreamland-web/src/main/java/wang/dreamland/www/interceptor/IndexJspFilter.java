@@ -1,4 +1,5 @@
 package wang.dreamland.www.interceptor;
+import com.alibaba.fastjson.JSON;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -31,6 +32,7 @@ public class IndexJspFilter extends BaseController implements Filter{
         List<UserContent> list = userContentMapper.findByJoin(null);
         PageHelper.Page endPage = PageHelper.endPage();//分页结束
         request.setAttribute("page", endPage );
+        request.setAttribute("list", JSON.toJSONString( endPage.getResult() )  );
         chain.doFilter(request, response);
     }
 

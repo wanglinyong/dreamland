@@ -16,13 +16,13 @@
     </resultMap>
 
     <insert id="inserContent" parameterType="userContent" useGeneratedKeys="true" keyProperty="id">
-        insert into user_content(id, u_id, title, category, content, personal,rpt_time ,img_url,nick_name,upvote,downvote,comment_num) values(#{id}, #{uId},#{title}, #{category},#{content},#{personal},#{rptTime}, #{imgUrl},#{nickName},#{upvote},#{downvote},#{commentNum})
+        insert into user_content(id, u_id, title, category, content, personal,rpt_time ,img_url,nick_name,upvote,downvote,comment_num,editormd) values(#{id}, #{uId},#{title}, #{category},#{content},#{personal},#{rptTime}, #{imgUrl},#{nickName},#{upvote},#{downvote},#{commentNum},#{editormd})
     </insert>
 
 
     <!--user_content和user表连接查询-->
     <select id="findByJoin"  resultMap="joinMap">
-       select u1.id,u1.u_id,u1.title,u1.category,u1.personal,u1.rpt_time,u1.upvote,u1.downvote,u1.comment_num,u1.content,u2.nick_name nickName,u2.img_url imgUrl from user_content u1 LEFT JOIN user u2 on u1.u_id = u2.id
+       select u1.id,u1.u_id,u1.title,u1.editormd,u1.category,u1.personal,u1.rpt_time,u1.upvote,u1.downvote,u1.comment_num,u1.content,u2.nick_name nickName,u2.img_url imgUrl from user_content u1 LEFT JOIN user u2 on u1.u_id = u2.id
        <where>
            <choose>
                <when test='id!=null and id!=""'>

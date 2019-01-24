@@ -7,18 +7,35 @@
 <head>
     <meta charset="UTF-8">
     <title>梦境网</title>
+
+
+
     <link href="${ctx}/css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${ctx}/css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
 
-    <link href="${ctx}/css/zui/css/zui.min.css" rel="stylesheet"/>
-    <link href="${ctx}/css/zui/css/zui-theme.min.css" rel="stylesheet"/>
+    <link href="${ctx}/css/zui/css/zui.css" rel="stylesheet"/>
+    <link href="${ctx}/css/zui/css/zui-theme.css" rel="stylesheet"/>
+
 
     <link rel="stylesheet" href="${ctx}/css/reply/css/style.css">
-    <link rel="stylesheet" href="${ctx}/css/reply/css/comment.css">
-    <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="${ctx}/css/reply/css/comment2.css">
+
+
+
+    <link rel="stylesheet" href="${ctx}/editormd/css/editormd.preview2.css" />
+    <link rel="stylesheet" href="${ctx}/editormd/css/editormd3.css" />
+
+    <script src="${ctx}/editormd/examples/js/jquery.min.js"></script>
+    <script src="${ctx}/editormd/lib/marked.min.js"></script>
+    <script src="${ctx}/editormd/lib/prettify.min.js"></script>
+    <script src="${ctx}/editormd/lib/editormd.min.js"></script>
+
+
+   <%-- <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>--%>
     <script type="text/javascript" src="${ctx}/css/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${ctx}/css/zui/js/zui.min.js"></script>
     <script type="text/javascript" src="${ctx}/css/reply/js/jquery.flexText.js"></script>
+
 
     <style>
         body,html{
@@ -127,10 +144,13 @@
         .update-dream a{
             text-decoration:none;
         }
+        .xxzui .kwd, .xxzui .prettyprint .tag{
+            color: #ff9900;
+        }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container xxzui xxzuitheme">
     <div>
         <h1>Dreamland-梦境网</h1>
     </div>
@@ -159,7 +179,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="javascript:void(0);">首页</a>
+            <a class="navbar-brand" href="${ctx}/index_list;">首页</a>
         </div>
         <div id="navbar-menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -190,7 +210,7 @@
         <div class="col-md-9"  style="background-color: white;">
 
 
-            <div id="content_col" class="content-main">
+            <div id="content_col" class="content-main xxlib">
                     <!-- 正文开始 -->
 
                     <div class="content-text">
@@ -202,14 +222,14 @@
                                 </a>
                             </div>
                             <a href="#" target="_blank">
-                                <h2 class="author-h2">
+                                <h2 class="author-h2" style="font-size:15px;margin-top:13px;">
                                         ${cont.nickName}
                                 </h2>
                             </a>
                         </div>
 
-                        <h2>${cont.title}</h2>
-                            ${cont.content}
+                        <h2 >${cont.title}</h2>
+                           <div class="xxlib content editormd-preview-theme-dark" style="padding: 0px;margin-bottom: 10px;" id="content-text">${cont.content}</div>
                         <div style="height: 5px"></div>
                         <div class="stats">
                             <!-- 笑脸、评论数等 -->
@@ -367,11 +387,11 @@
                 <div class="foot-nav clearfix" style="position: absolute;left: 0px;margin-top: 40px;text-align: center">
                     <div class="foot-copyrights" style="margin-left: 200px">
                         <p>
-                            互联网ICP备案：京ICP备xxxxxx号-1
+                            互联网ICP备案：皖ICP备18007469号
                         </p>
                         <p>
                             <span>违法和不良信息举报电话：010-xxxxxxx</span>
-                            <span>邮箱：xxx@dreamland.wang</span>
+                            <span>邮箱：dreamland_wang@163.com</span>
                         </p>
                         <p style="margin-top: 8px">&copy;www.dreamland.wang 梦境网版权所有</p>
                     </div>
@@ -395,7 +415,17 @@
 
 
 </body>
+<script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
 <script language=javascript>
+    editormd.markdownToHTML("content-text");
+   /* testEditormdView2 = editormd.markdownToHTML("content-text", {
+        htmlDecode      : "style,script,iframe",  // you can filter tags decode
+        emoji           : true,
+        taskList        : true,
+        tex             : true,  // 默认不解析
+        flowChart       : true,  // 默认不解析
+        sequenceDiagram : true,  // 默认不解析
+    });*/
     function personal(uId) {
         this.location =  "${ctx}/list?id="+uId;
     }

@@ -1,10 +1,19 @@
-# dreamland项目简介
+# dreamland
 
-dreamland项目是由我个人开发的一个博客项目，一直感觉梦是个奇妙的东西，每个人都会做梦，要是每个人都能把梦记录下来、分享出来，那该是件多么有趣的事情啊~
 
-dreamland梦境网-意在营造一个分享梦的社区。
+![springMVC](https://img.shields.io/badge/SpringMVC-4.2.5-yellowgreen.svg)
+![spring](https://img.shields.io/badge/Spring-4.2.5-brightgreen.svg)
+![Mybatis](https://img.shields.io/badge/Mybatis-3.2.8-blue.svg)
 
-## 一、项目包含功能
+## 2019.01.26更新
+
+集成editormd，支持markdown在线编辑功能
+
+保留原来的富文本编辑器，需携带参数访问，如：
+
+	http://dreamland.wang/writedream?style=richtext
+
+## 一、项目主要功能
 
 使用SSM框架开发的一个博客系统，包含的功能大致有:
 

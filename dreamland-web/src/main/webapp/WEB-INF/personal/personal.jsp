@@ -81,7 +81,7 @@
             display: block;
             width: 280px;
             min-height: 550px;
-            margin-top: 1320px;
+            margin-top: 1210px;
             position: absolute;
             background-color: white;
         }
